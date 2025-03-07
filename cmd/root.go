@@ -1,10 +1,12 @@
 package cmd
 
 import (
+	"bytes"
+	"cz/internal"
 	"errors"
 	"fmt"
 	"os"
-	"os/exec"
+	"text/template"
 
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
@@ -16,7 +18,7 @@ var rootCmd = &cobra.Command{
 	Long: `cz helps developers write structured commit messages.
 It follows conventional commit guidelines, ensuring consistency and clarity in commit history.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		templates := &promptui.SelectTemplates{
+		typeTemplate := &promptui.SelectTemplates{
 			Label:    "{{ . }}?",
 			Active:   "{{ .Label | cyan }}",
 			Inactive: "{{ .Label }}",
@@ -24,8 +26,8 @@ It follows conventional commit guidelines, ensuring consistency and clarity in c
 
 		typePrompt := promptui.Select{
 			Label:     "Something",
-			Items:     COMMIT_TYPES,
-			Templates: templates,
+			Items:     internal.COMMIT_TYPES,
+			Templates: typeTemplate,
 			Size:      3,
 		}
 
@@ -35,7 +37,7 @@ It follows conventional commit guidelines, ensuring consistency and clarity in c
 			return
 		}
 
-		commitType := COMMIT_TYPES[index].Type
+		commitType := internal.COMMIT_TYPES[index].Type
 
 		scopePrompt := promptui.Prompt{
 			Label: "Scope (e.g., auth, db, api, ui, cli) - leave empty for none",
@@ -47,48 +49,54 @@ It follows conventional commit guidelines, ensuring consistency and clarity in c
 			return
 		}
 
-		shortDescPrompt := promptui.Prompt{
+		messagePrompt := promptui.Prompt{
 			Label: "Enter short commit description",
 			Validate: func(s string) error {
 				if len(s) < 10 {
-					return errors.New("please enter at least 50 characters")
+					return errors.New("please enter at least 10 characters")
 				}
 
 				return nil
 			},
 		}
 
-		shortDesc, err := shortDescPrompt.Run()
+		message, err := messagePrompt.Run()
 		if err != nil {
 			fmt.Printf("error: %v\n", err)
 			return
 		}
 
-		longDescPrompt := promptui.Prompt{
+		bodyPrompt := promptui.Prompt{
 			Label:     "Enter detailed commit message (optional)",
 			IsVimMode: true,
 		}
 
-		longDesc, err := longDescPrompt.Run()
+		body, err := bodyPrompt.Run()
 		if err != nil {
 			fmt.Printf("error: %v\n", err)
 			return
 		}
 
-		var commitMessage string
-
-		if scope != "" {
-			commitMessage = fmt.Sprintf("%s(%s): %s\n\n%s", commitType, scope, shortDesc, longDesc)
-		} else {
-			commitMessage = fmt.Sprintf("%s: %s\n\n%s", commitType, shortDesc, longDesc)
-		}
-
-		commitCommand := exec.Command("git", "commit", "-m", commitMessage)
-		err = commitCommand.Run()
+		commitTemplate, err := template.New("commit-message").Parse(internal.DEFAULT_COMMIT_FORMAT)
 		if err != nil {
-			fmt.Printf("error: %v", err)
-			return
+			fmt.Printf("error: %v\n", err)
 		}
+
+		var commitMessageBuf bytes.Buffer
+		data := internal.CommitMessageData{
+			Type:    commitType,
+			Scope:   scope,
+			Message: message,
+			Body:    body,
+		}
+
+		err = commitTemplate.Execute(&commitMessageBuf, data)
+		if err != nil {
+			fmt.Printf("error: %v\n", err)
+		}
+
+		commitMessage := commitMessageBuf.String()
+		internal.GitCommit(commitMessage)
 	},
 }
 

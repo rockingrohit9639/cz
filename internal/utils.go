@@ -1,4 +1,4 @@
-package cmd
+package internal
 
 type CommitType struct {
 	Type  string
@@ -20,3 +20,14 @@ var COMMIT_TYPES = []CommitType{
 	{Type: "wip", Label: "wip: Work in progress, not a final commit"},
 	{Type: "security", Label: "security: Fixing security vulnerabilities"},
 }
+
+type CommitMessageData struct {
+	Type    string
+	Scope   string
+	Message string
+	Body    string
+}
+
+var DEFAULT_COMMIT_FORMAT = `{{ .Type }}{{ if .Scope}}({{ .Scope }}){{end}}: {{ .Message }}{{ if .Body}}
+
+{{ .Body}}{{end}}`
