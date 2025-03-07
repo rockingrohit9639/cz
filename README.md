@@ -66,7 +66,7 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 - [ ] Enhancements to the user interface (e.g., improved color schemes).
 - [ ] Add flags for type, scope, and message to override interactive prompts.
 - [ ] Preview commit message and only commit after confirmation.
-- [ ] Add retry feature for commit creation.
+- [x] Add retry feature for commit creation.
 - [ ] Add undo command to revert the last commit.
 - [ ] Warn if no changes are staged
 - [ ] Implement `.czrc` file

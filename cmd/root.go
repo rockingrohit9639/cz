@@ -15,6 +15,19 @@ var rootCmd = &cobra.Command{
 	Long: `cz helps developers write structured commit messages.
 It follows conventional commit guidelines, ensuring consistency and clarity in commit history.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		retry, err := cmd.Flags().GetBool("retry")
+		if err != nil {
+			internal.Warn("failed to get value for retry flag")
+		}
+
+		// Retry commit with the last commit message
+		if retry {
+			prevCommitMsg := cache.GetPrevCommit()
+			internal.GitCommit(prevCommitMsg)
+			internal.Success("Your changes have been committed successfully.")
+			return
+		}
+
 		commitType := internal.InputCommitType()
 		scope := internal.InputScope()
 		message := internal.InputMessage()
@@ -32,11 +45,12 @@ It follows conventional commit guidelines, ensuring consistency and clarity in c
 
 		cache.SetPrevCommit(commitMessage)
 
-		internal.Success("You changes has been committed successfully. ")
+		internal.Success("Your changes has been committed successfully. ")
 	},
 }
 
 func init() {
+	rootCmd.Flags().Bool("retry", false, "Reuse the previous commit message and retry the commit process.")
 	cache.Init()
 }
 

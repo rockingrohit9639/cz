@@ -32,3 +32,7 @@ func SetPrevCommit(message string) {
 	cache.PrevCommit = message
 	saveCache()
 }
+
+func GetPrevCommit() string {
+	return cache.PrevCommit
+}
