@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"cz/cache"
 	"cz/internal"
 	"fmt"
 	"os"
@@ -28,7 +29,15 @@ It follows conventional commit guidelines, ensuring consistency and clarity in c
 
 		commitMessage := internal.CompileCommitMessage(data)
 		internal.GitCommit(commitMessage)
+
+		cache.SetPrevCommit(commitMessage)
+
+		internal.Success("You changes has been committed successfully. ")
 	},
+}
+
+func init() {
+	cache.Init()
 }
 
 func Execute() {

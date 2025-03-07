@@ -23,7 +23,7 @@ func InputCommitType() string {
 	}
 
 	index, _, err := typePrompt.Run()
-	AbortOnError(err, "Failed to select commit type. Please try again.")
+	AbortOnError(err, "failed to select commit type. Please try again.")
 
 	return COMMIT_TYPES[index].Type
 }
@@ -36,7 +36,7 @@ func InputScope() string {
 	}
 
 	scope, err := scopePrompt.Run()
-	AbortOnError(err, "Failed to get a commit message. Please try again.")
+	AbortOnError(err, "failed to get a commit message. Please try again.")
 
 	return scope
 }
@@ -56,7 +56,7 @@ func InputMessage() string {
 	}
 
 	message, err := messagePrompt.Run()
-	AbortOnError(err, "Failed to get the commit message. Please try again.")
+	AbortOnError(err, "failed to get the commit message. Please try again.")
 
 	return message
 }
@@ -70,7 +70,7 @@ func InputBody() string {
 	}
 
 	body, err := bodyPrompt.Run()
-	AbortOnError(err, "Failed to get the commit body. Please try again.")
+	AbortOnError(err, "failed to get the commit body. Please try again.")
 
 	return body
 }
