@@ -15,6 +15,12 @@ var rootCmd = &cobra.Command{
 	Long: `cz helps developers write structured commit messages.
 It follows conventional commit guidelines, ensuring consistency and clarity in commit history.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		hasStagedChanges := internal.HasStagedChanges()
+		if !hasStagedChanges {
+			internal.Error("Whoa there! No staged changes found. Are you trying to commit air? Stage your changes first!")
+			return
+		}
+
 		retry, err := cmd.Flags().GetBool("retry")
 		if err != nil {
 			internal.Warn("failed to get value for retry flag")
