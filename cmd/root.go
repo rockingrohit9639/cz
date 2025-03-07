@@ -23,9 +23,13 @@ It follows conventional commit guidelines, ensuring consistency and clarity in c
 		// Retry commit with the last commit message
 		if retry {
 			prevCommitMsg := cache.GetPrevCommit()
-			internal.GitCommit(prevCommitMsg)
-			internal.Success("Your changes have been committed successfully.")
-			return
+			if prevCommitMsg != "" {
+				internal.GitCommit(prevCommitMsg)
+				internal.Success("Your changes have been committed successfully.")
+				return
+			} else {
+				internal.Warn("No previous commit found, continuing with new commit.")
+			}
 		}
 
 		commitType := internal.InputCommitType()
