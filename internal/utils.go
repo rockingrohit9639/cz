@@ -1,5 +1,10 @@
 package internal
 
+import (
+	"bytes"
+	"text/template"
+)
+
 type CommitType struct {
 	Type  string
 	Label string
@@ -28,6 +33,20 @@ type CommitMessageData struct {
 	Body    string
 }
 
-var DEFAULT_COMMIT_FORMAT = `{{ .Type }}{{ if .Scope}}({{ .Scope }}){{end}}: {{ .Message }}{{ if .Body}}
+const DEFAULT_COMMIT_FORMAT = `{{ .Type }}{{ if .Scope}}({{ .Scope }}){{end}}: {{ .Message }}{{ if .Body}}
 
 {{ .Body}}{{end}}`
+
+// This function generates a commit message by parsing and executing a predefined template with the provided data.
+// It uses the CommitMessageData struct to fill in the template. If parsing or execution fails, the function aborts
+// the program and shows an error message. It returns the generated commit message as a string.
+func CompileCommitMessage(data CommitMessageData) string {
+	commitTemplate, err := template.New("commit-message").Parse(DEFAULT_COMMIT_FORMAT)
+	AbortOnError(err, "Failed to compile commit message. Please try again.")
+
+	var commitMessageBuf bytes.Buffer
+	err = commitTemplate.Execute(&commitMessageBuf, data)
+	AbortOnError(err, "Failed to execute commit message template. Please try again.")
+
+	return commitMessageBuf.String()
+}
