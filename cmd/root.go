@@ -32,10 +32,7 @@ It follows conventional commit guidelines, ensuring consistency and clarity in c
 		}
 
 		index, _, err := typePrompt.Run()
-		if err != nil {
-			fmt.Printf("Prompt failed %v\n", err)
-			return
-		}
+		internal.AbortOnError(err, "Failed to select commit type. Please try again.")
 
 		commitType := internal.COMMIT_TYPES[index].Type
 
@@ -44,10 +41,7 @@ It follows conventional commit guidelines, ensuring consistency and clarity in c
 		}
 
 		scope, err := scopePrompt.Run()
-		if err != nil {
-			fmt.Printf("error: %v\n", err)
-			return
-		}
+		internal.AbortOnError(err, "Failed to get a commit message. Please try again.")
 
 		messagePrompt := promptui.Prompt{
 			Label: "Enter short commit description",
@@ -61,10 +55,7 @@ It follows conventional commit guidelines, ensuring consistency and clarity in c
 		}
 
 		message, err := messagePrompt.Run()
-		if err != nil {
-			fmt.Printf("error: %v\n", err)
-			return
-		}
+		internal.AbortOnError(err, "Failed to get the commit message. Please try again.")
 
 		bodyPrompt := promptui.Prompt{
 			Label:     "Enter detailed commit message (optional)",
@@ -72,15 +63,10 @@ It follows conventional commit guidelines, ensuring consistency and clarity in c
 		}
 
 		body, err := bodyPrompt.Run()
-		if err != nil {
-			fmt.Printf("error: %v\n", err)
-			return
-		}
+		internal.AbortOnError(err, "Failed to get the commit body. Please try again.")
 
 		commitTemplate, err := template.New("commit-message").Parse(internal.DEFAULT_COMMIT_FORMAT)
-		if err != nil {
-			fmt.Printf("error: %v\n", err)
-		}
+		internal.AbortOnError(err, "Failed to compile commit message. Please try again.")
 
 		var commitMessageBuf bytes.Buffer
 		data := internal.CommitMessageData{
@@ -91,9 +77,7 @@ It follows conventional commit guidelines, ensuring consistency and clarity in c
 		}
 
 		err = commitTemplate.Execute(&commitMessageBuf, data)
-		if err != nil {
-			fmt.Printf("error: %v\n", err)
-		}
+		internal.AbortOnError(err, "Failed to execute commit message template. Please try again.")
 
 		commitMessage := commitMessageBuf.String()
 		internal.GitCommit(commitMessage)
