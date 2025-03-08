@@ -73,3 +73,14 @@ func InputBody() string {
 
 	return body
 }
+
+// This function prompts the user to confirm something
+func InputConfirm(label string) bool {
+	confirmPrompt := promptui.Prompt{
+		Label:     label,
+		IsConfirm: true,
+	}
+
+	_, err := confirmPrompt.Run()
+	return err == nil
+}
