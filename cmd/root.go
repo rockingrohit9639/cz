@@ -69,10 +69,15 @@ It follows conventional commit guidelines, ensuring consistency and clarity in c
 		}
 
 		commitMessage := internal.CompileCommitMessage(data)
+
+		confirmCommit := internal.InputConfirm(fmt.Sprintf("Commit message -> %s?", commitMessage))
+		if !confirmCommit {
+			internal.Error("commit cancelled")
+			return
+		}
+
 		internal.GitCommit(commitMessage)
-
 		cache.SetPrevCommit(commitMessage)
-
 		internal.Success("Your changes has been committed successfully. ")
 	},
 }
