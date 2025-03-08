@@ -58,7 +58,7 @@ It follows conventional commit guidelines, ensuring consistency and clarity in c
 
 		body, _ := cmd.Flags().GetString("body")
 		if body == "" {
-			message = internal.InputBody()
+			body = internal.InputBody()
 		}
 
 		data := internal.CommitMessageData{
