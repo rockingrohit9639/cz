@@ -21,6 +21,12 @@ It follows conventional commit guidelines, ensuring consistency and clarity in c
 			return
 		}
 
+		isGitInit := internal.IsGitInitialized()
+		if !isGitInit {
+			internal.Error("This is not a Git repository. Run this command inside a Git project.")
+			return
+		}
+
 		retry, err := cmd.Flags().GetBool("retry")
 		if err != nil {
 			internal.Warn("failed to get value for retry flag")

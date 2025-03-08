@@ -7,3 +7,9 @@ func HasStagedChanges() bool {
 	err := stageCmd.Run()
 	return err != nil
 }
+
+func IsGitInitialized() bool {
+	cmd := exec.Command("git", "rev-parse", "--is-inside-work-tree")
+	err := cmd.Run()
+	return err == nil
+}
