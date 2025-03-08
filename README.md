@@ -48,6 +48,26 @@ Body: Add an optional body to provide more details about the commit.
 
 After completing the prompts, you will see a preview of the generated commit message. You can then confirm and proceed with committing the changes.
 
+### Undo command
+
+The undo command reverts the last commit while keeping the changes unstaged, allowing you to modify and recommit if needed.
+
+Usage:
+
+```sh
+cz undo
+```
+
+### Add Command
+
+The add command stages all modified, deleted, and new files, preparing them for commit. It's equivalent to running `git add .`
+
+Usage:
+
+```sh
+cz add
+```
+
 ## Contributing
 
 We welcome contributions! Feel free to open issues, submit pull requests, or suggest improvements.
