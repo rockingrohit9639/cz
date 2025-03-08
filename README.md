@@ -75,7 +75,7 @@ We welcome contributions! Feel free to open issues, submit pull requests, or sug
 - Fork the repository
 - Create a new branch (git checkout -b feat/some-feature)
 - Commit your changes (use our `cz` tool 😄)
-- Push to the branch (git push origin feat/some-branch)
+- Push to the branch (git push origin feat/some-feature)
 - Open a pull request
 
 ## License
@@ -84,12 +84,12 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 
 ## Future Plans
 
-- [ ] Support for commit templates.
-- [ ] Enhancements to the user interface (e.g., improved color schemes).
 - [x] Add flags for type, scope, and message to override interactive prompts.
-- [ ] Preview commit message and only commit after confirmation.
 - [x] Add retry feature for commit creation.
 - [x] Add undo command to revert the last commit.
 - [x] Warn if no changes are staged
-- [ ] Implement `.czrc` file
 - [x] Add command to stage all changes
+- [ ] Support for commit templates.
+- [ ] Enhancements to the user interface (e.g., improved color schemes).
+- [ ] Preview commit message and only commit after confirmation.
+- [ ] Implement `.czrc` file
