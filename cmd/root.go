@@ -27,10 +27,7 @@ It follows conventional commit guidelines, ensuring consistency and clarity in c
 			return
 		}
 
-		retry, err := cmd.Flags().GetBool("retry")
-		if err != nil {
-			internal.Warn("failed to get value for retry flag")
-		}
+		retry, _ := cmd.Flags().GetBool("retry")
 
 		// Retry commit with the last commit message
 		if retry {
@@ -44,10 +41,25 @@ It follows conventional commit guidelines, ensuring consistency and clarity in c
 			}
 		}
 
-		commitType := internal.InputCommitType()
-		scope := internal.InputScope()
-		message := internal.InputMessage()
-		body := internal.InputBody()
+		commitType, _ := cmd.Flags().GetString("type")
+		if commitType == "" {
+			commitType = internal.InputCommitType()
+		}
+
+		scope, _ := cmd.Flags().GetString("scope")
+		if scope == "" {
+			scope = internal.InputScope()
+		}
+
+		message, _ := cmd.Flags().GetString("message")
+		if message == "" {
+			message = internal.InputMessage()
+		}
+
+		body, _ := cmd.Flags().GetString("body")
+		if body == "" {
+			message = internal.InputBody()
+		}
 
 		data := internal.CommitMessageData{
 			Type:    commitType,
@@ -67,6 +79,11 @@ It follows conventional commit guidelines, ensuring consistency and clarity in c
 
 func init() {
 	rootCmd.Flags().Bool("retry", false, "Reuse the previous commit message and retry the commit process.")
+	rootCmd.Flags().StringP("type", "t", "", "Specify the commit type directly and skip the prompt (e.g., cz --type feat)")
+	rootCmd.Flags().StringP("scope", "s", "", "Specify the commit scope directly and skip the prompt (e.g., cz --scope auth)")
+	rootCmd.Flags().StringP("message", "m", "", "Specify the commit message directly and skip the prompt (e.g., cz --message 'Fix login bug')")
+	rootCmd.Flags().StringP("body", "b", "", "Specify the commit body directly and skip the prompt (e.g., cz --body 'Fixed the issue causing session timeout')")
+
 	cache.Init()
 }
 

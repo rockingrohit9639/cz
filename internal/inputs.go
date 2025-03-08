@@ -19,7 +19,6 @@ func InputCommitType() string {
 		Label:     "Select the type of change you are committing",
 		Items:     COMMIT_TYPES,
 		Templates: typeTemplate,
-		Size:      3,
 	}
 
 	index, _, err := typePrompt.Run()
