@@ -69,7 +69,7 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 - [x] Add flags for type, scope, and message to override interactive prompts.
 - [ ] Preview commit message and only commit after confirmation.
 - [x] Add retry feature for commit creation.
-- [ ] Add undo command to revert the last commit.
+- [x] Add undo command to revert the last commit.
 - [x] Warn if no changes are staged
 - [ ] Implement `.czrc` file
-- [ ] Add command to stage all changes
+- [x] Add command to stage all changes
