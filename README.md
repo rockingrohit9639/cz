@@ -23,7 +23,7 @@ go build
 
 ### Pre-built Binaries
 
-Coming soon!
+Check latest release
 
 ## Usage
 
@@ -43,6 +43,8 @@ Commit Type: Select the type of commit (e.g., feat, fix, docs).
 Scope: Optionally specify the scope of the commit.
 Message: Write the main commit message.
 Body: Add an optional body to provide more details about the commit.
+
+![type-input](./images/type-input.png)
 
 After completing the prompts, you will see a preview of the generated commit message. You can then confirm and proceed with committing the changes.
 
@@ -64,10 +66,10 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 
 - [ ] Support for commit templates.
 - [ ] Enhancements to the user interface (e.g., improved color schemes).
-- [ ] Add flags for type, scope, and message to override interactive prompts.
+- [x] Add flags for type, scope, and message to override interactive prompts.
 - [ ] Preview commit message and only commit after confirmation.
 - [x] Add retry feature for commit creation.
 - [ ] Add undo command to revert the last commit.
-- [ ] Warn if no changes are staged
+- [x] Warn if no changes are staged
 - [ ] Implement `.czrc` file
 - [ ] Add command to stage all changes
