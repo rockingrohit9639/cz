@@ -2,6 +2,8 @@
 
 `cz` is a command-line tool that helps developers craft well-structured commit messages. It provides an interactive experience for selecting commit types, scopes, and writing commit messages. The tool aims to make the process of creating consistent, semantic commit messages easier and more user-friendly.
 
+It is inspired by [commitizen](https://commitizen-tools.github.io/commitizen/)
+
 ## Features
 
 - **Interactive Prompts**: Guides the user through a series of prompts to create well-structured commit messages.
