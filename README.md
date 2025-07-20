@@ -25,7 +25,7 @@ go build
 
 ### Pre-built Binaries
 
-Check latest release
+Check latest release [here](https://github.com/rockingrohit9639/cz/releases)
 
 ## Usage
 
@@ -70,6 +70,26 @@ Usage:
 cz add
 ```
 
+### Get previous commit message
+
+This command retrives the last commit message done with cz.
+
+Usage:
+
+```sh
+cz get-prev-commit
+```
+
+### Add Format
+
+This command adds a new commit format in config. You can later use this to format your new commit messages.
+
+Usage:
+
+```sh
+cz add-format
+```
+
 ## Contributing
 
 We welcome contributions! Feel free to open issues, submit pull requests, or suggest improvements.
@@ -91,7 +111,7 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 - [x] Add undo command to revert the last commit.
 - [x] Warn if no changes are staged
 - [x] Add command to stage all changes
-- [ ] Support for commit templates.
+- [x] Support for commit templates.
 - [ ] Enhancements to the user interface (e.g., improved color schemes).
 - [x] Preview commit message and only commit after confirmation.
 - [ ] Implement `.czrc` file
