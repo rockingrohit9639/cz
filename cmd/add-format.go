@@ -16,7 +16,12 @@ var addFormatCmd = &cobra.Command{
 		name := internal.InputString("Name of the format")
 		pattern := internal.InputString("Pattern of the format This should follow go template syntax.")
 
-		config.AddFormat(name, pattern)
+		err := config.AddFormat(name, pattern)
+		if err != nil {
+			internal.Error(err.Error())
+			return
+		}
+
 		internal.Success("Format added successfully")
 	},
 }

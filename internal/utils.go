@@ -40,8 +40,8 @@ const DEFAULT_COMMIT_FORMAT = `{{ .Type }}{{ if .Scope}}({{ .Scope }}){{end}}: {
 // This function generates a commit message by parsing and executing a predefined template with the provided data.
 // It uses the CommitMessageData struct to fill in the template. If parsing or execution fails, the function aborts
 // the program and shows an error message. It returns the generated commit message as a string.
-func CompileCommitMessage(data CommitMessageData) string {
-	commitTemplate, err := template.New("commit-message").Parse(DEFAULT_COMMIT_FORMAT)
+func CompileCommitMessage(data CommitMessageData, format string) string {
+	commitTemplate, err := template.New("commit-message").Parse(format)
 	AbortOnError(err, "failed to compile commit message. Please try again.")
 
 	var commitMessageBuf bytes.Buffer

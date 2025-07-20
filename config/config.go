@@ -2,6 +2,7 @@ package config
 
 import (
 	"cz/internal"
+	"errors"
 	"fmt"
 	"os"
 	"text/template"
@@ -31,10 +32,17 @@ func Init() {
 	loadConfig()
 }
 
-func AddFormat(name string, pattern string) {
+func AddFormat(name string, pattern string) error {
 	format := Format{
 		Name:    name,
 		Pattern: pattern,
+	}
+
+	// Check if the format already exists
+	for _, format := range config.Formats {
+		if format.Name == name {
+			return errors.New("format already exists")
+		}
 	}
 
 	_, err := template.New(name).Parse(pattern)
@@ -42,4 +50,16 @@ func AddFormat(name string, pattern string) {
 
 	config.Formats = append(config.Formats, format)
 	saveConfig()
+
+	return nil
+}
+
+func GetFormat(name string) string {
+	for _, format := range config.Formats {
+		if format.Name == name {
+			return format.Pattern
+		}
+	}
+
+	return ""
 }

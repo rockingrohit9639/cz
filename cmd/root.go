@@ -69,7 +69,19 @@ It follows conventional commit guidelines, ensuring consistency and clarity in c
 			Body:    body,
 		}
 
-		commitMessage := internal.CompileCommitMessage(data)
+		format, _ := cmd.Flags().GetString("format")
+		if format != "" {
+			format = config.GetFormat(format)
+			if format == "" {
+				internal.Error("Format not found. Please use a valid format.")
+				return
+			}
+		} else {
+			format = internal.DEFAULT_COMMIT_FORMAT
+		}
+
+		commitMessage := internal.CompileCommitMessage(data, format)
+		fmt.Println(commitMessage)
 
 		confirmCommit := internal.InputConfirm(fmt.Sprintf("Commit message -> %s?", commitMessage))
 		if !confirmCommit {
@@ -89,6 +101,7 @@ func init() {
 	rootCmd.Flags().StringP("scope", "s", "", "Specify the commit scope directly and skip the prompt (e.g., cz --scope auth)")
 	rootCmd.Flags().StringP("message", "m", "", "Specify the commit message directly and skip the prompt (e.g., cz --message 'Fix login bug')")
 	rootCmd.Flags().StringP("body", "b", "", "Specify the commit body directly and skip the prompt (e.g., cz --body 'Fixed the issue causing session timeout')")
+	rootCmd.Flags().StringP("format", "f", "", "Specify the commit format. This will override the default format.")
 
 	cache.Init()
 	config.Init()
