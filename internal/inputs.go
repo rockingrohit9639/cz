@@ -84,3 +84,14 @@ func InputConfirm(label string) bool {
 	_, err := confirmPrompt.Run()
 	return err == nil
 }
+
+func InputString(label string) string {
+	prompt := promptui.Prompt{
+		Label: label,
+	}
+
+	input, err := prompt.Run()
+	AbortOnError(err, "failed to get the input. Please try again.")
+
+	return input
+}

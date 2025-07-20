@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"cz/cache"
+	"cz/config"
 	"cz/internal"
 	"fmt"
 	"os"
@@ -90,6 +91,7 @@ func init() {
 	rootCmd.Flags().StringP("body", "b", "", "Specify the commit body directly and skip the prompt (e.g., cz --body 'Fixed the issue causing session timeout')")
 
 	cache.Init()
+	config.Init()
 }
 
 func Execute() {
