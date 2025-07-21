@@ -115,3 +115,4 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 - [ ] Enhancements to the user interface (e.g., improved color schemes).
 - [x] Preview commit message and only commit after confirmation.
 - [ ] Implement `.czrc` file
+- [ ] Create command to set default commit format
