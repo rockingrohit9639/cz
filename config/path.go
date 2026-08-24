@@ -1,9 +1,10 @@
 package config
 
 import (
-	"cz/internal"
 	"os"
 	"path/filepath"
+
+	"github.com/rockingrohit9639/cz/internal"
 )
 
 func getConfigDirPath() string {

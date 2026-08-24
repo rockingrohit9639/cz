@@ -1,0 +1,116 @@
+version: 2
+
+project_name: cz
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: cz
+    main: .
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+      - -X github.com/rockingrohit9639/cz/cmd.version={{ .Version }}
+      - -X github.com/rockingrohit9639/cz/cmd.commit={{ .Commit }}
+      - -X github.com/rockingrohit9639/cz/cmd.date={{ .Date }}
+    mod_timestamp: "{{ .CommitTimestamp }}"
+
+archives:
+  - id: cz
+    # install.sh and install.ps1 build download URLs from this exact template.
+    # Change it here and you must change it there too.
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    formats:
+      - tar.gz
+    format_overrides:
+      - goos: windows
+        formats:
+          - zip
+    files:
+      - README.md
+      - LICENSE
+
+checksum:
+  name_template: checksums.txt
+
+changelog:
+  sort: asc
+  use: github
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+      - "^ci:"
+      - "^style:"
+      - Merge pull request
+      - Merge branch
+
+release:
+  draft: false
+  prerelease: auto
+  footer: |
+    ## Install
+
+    ```sh
+    # macOS / Linux (Homebrew)
+    brew install rockingrohit9639/tap/cz
+
+    # Windows (Scoop)
+    scoop bucket add rockingrohit9639 https://github.com/rockingrohit9639/scoop-bucket
+    scoop install cz
+
+    # macOS / Linux (no package manager)
+    curl -sSfL https://raw.githubusercontent.com/rockingrohit9639/cz/main/install.sh | sh
+
+    # Go
+    go install github.com/rockingrohit9639/cz@latest
+    ```
+
+homebrew_casks:
+  - name: cz
+    repository:
+      owner: rockingrohit9639
+      name: homebrew-tap
+      token: "{{ .Env.GORELEASER_TOKEN }}"
+    directory: Casks
+    homepage: https://github.com/rockingrohit9639/cz
+    description: A simple and customizable commit message tool
+    license: MIT
+    commit_author:
+      name: goreleaser-bot
+      email: bot@goreleaser.com
+    commit_msg_template: "chore(brew): bump cz to {{ .Tag }}"
+    hooks:
+      post:
+        # The binary is unsigned, so Gatekeeper quarantines it on download and
+        # macOS refuses to run it. Strip the quarantine attribute on install.
+        install: |
+          if system_command("/usr/bin/xattr", args: ["-h"]).exit_status == 0
+            system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/cz"]
+          end
+
+scoops:
+  - name: cz
+    repository:
+      owner: rockingrohit9639
+      name: scoop-bucket
+      token: "{{ .Env.GORELEASER_TOKEN }}"
+    directory: bucket
+    homepage: https://github.com/rockingrohit9639/cz
+    description: A simple and customizable commit message tool
+    license: MIT
+    commit_author:
+      name: goreleaser-bot
+      email: bot@goreleaser.com
+    commit_msg_template: "chore(scoop): bump cz to {{ .Tag }}"

@@ -1,11 +1,12 @@
 package config
 
 import (
-	"cz/internal"
 	"errors"
 	"fmt"
 	"os"
 	"text/template"
+
+	"github.com/rockingrohit9639/cz/internal"
 )
 
 var config = Config{}

@@ -13,9 +13,66 @@ It is inspired by [commitizen](https://commitizen-tools.github.io/commitizen/)
 
 ## Installation
 
-To install `cz`, you can either clone the repository and build it yourself or use pre-built binaries.
+Pick whichever line matches your setup — none of them require downloading a binary by hand.
 
-### Clone the repository and build
+### macOS / Linux — Homebrew
+
+```sh
+brew install rockingrohit9639/tap/cz
+```
+
+Upgrade later with `brew upgrade cz`.
+
+### Windows — Scoop
+
+```powershell
+scoop bucket add rockingrohit9639 https://github.com/rockingrohit9639/scoop-bucket
+scoop install cz
+```
+
+Upgrade later with `scoop update cz`.
+
+### macOS / Linux — install script
+
+For machines without Homebrew. Installs to `/usr/local/bin`, falling back to
+`~/.local/bin` when that is not writable.
+
+```sh
+curl -sSfL https://raw.githubusercontent.com/rockingrohit9639/cz/main/install.sh | sh
+```
+
+Pin a version or change the location with environment variables:
+
+```sh
+curl -sSfL https://raw.githubusercontent.com/rockingrohit9639/cz/main/install.sh \
+  | CZ_VERSION=v2.0.0 CZ_INSTALL_DIR="$HOME/bin" sh
+```
+
+### Windows — install script
+
+For machines without Scoop. Installs to `%LOCALAPPDATA%\cz\bin` and adds it to
+your user `PATH`.
+
+```powershell
+irm https://raw.githubusercontent.com/rockingrohit9639/cz/main/install.ps1 | iex
+```
+
+Pin a version or change the location by setting `$env:CZ_VERSION` /
+`$env:CZ_INSTALL_DIR` before running it.
+
+### Go
+
+```sh
+go install github.com/rockingrohit9639/cz@latest
+```
+
+### Manual download
+
+Prebuilt archives for Linux, macOS, and Windows (amd64 and arm64) are attached to
+every [release](https://github.com/rockingrohit9639/cz/releases), along with a
+`checksums.txt` to verify them.
+
+### Build from source
 
 ```bash
 git clone https://github.com/rockingrohit9639/cz.git
@@ -23,9 +80,11 @@ cd cz
 go build
 ```
 
-### Pre-built Binaries
+### Verify the install
 
-Check latest release [here](https://github.com/rockingrohit9639/cz/releases)
+```sh
+cz version
+```
 
 ## Usage
 
@@ -89,6 +148,51 @@ Usage:
 ```sh
 cz add-format
 ```
+
+### Version
+
+Prints the version, commit, and build date of your `cz` binary. Useful when reporting issues.
+
+```sh
+cz version
+```
+
+## Releasing (maintainers)
+
+Releases are fully automated by [GoReleaser](https://goreleaser.com). Cutting one is:
+
+```sh
+git tag v2.1.0
+git push origin v2.1.0
+```
+
+The `Release` workflow then builds all six binaries (linux/darwin/windows x amd64/arm64),
+publishes the GitHub release with checksums and a generated changelog, and pushes the
+updated Homebrew cask and Scoop manifest to the tap repositories.
+
+### One-time setup
+
+1. Create two **public** repositories under the same account:
+   - `homebrew-tap` — receives `Casks/cz.rb`
+   - `scoop-bucket` — receives `bucket/cz.json`
+2. Create a GitHub personal access token that can write to both:
+   - Classic token with the `repo` scope, or
+   - Fine-grained token scoped to those two repos with **Contents: read and write**
+3. Add it to this repository as the secret `GORELEASER_TOKEN`
+   (Settings → Secrets and variables → Actions → New repository secret).
+
+The built-in `GITHUB_TOKEN` publishes the release itself but cannot write to other
+repositories, which is why the extra token is required.
+
+### Testing the release locally
+
+```sh
+goreleaser check
+goreleaser release --snapshot --clean --skip=publish
+```
+
+Artifacts land in `dist/`. Every pull request also runs this dry run in CI, so a broken
+`.goreleaser.yaml` is caught before you tag.
 
 ## Contributing
 
