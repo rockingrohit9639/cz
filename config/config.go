@@ -2,7 +2,6 @@ package config
 
 import (
 	"errors"
-	"fmt"
 	"os"
 	"text/template"
 
@@ -16,7 +15,6 @@ var config = Config{}
 // the function aborts and displays an appropriate error message.
 func Init() {
 	czConfigDir := getConfigDirPath()
-	fmt.Println(czConfigDir)
 
 	// Create config directory if it does not exists yet
 	err := os.MkdirAll(czConfigDir, 0755)
