@@ -1,8 +1,9 @@
 package cmd
 
 import (
-	"cz/internal"
 	"fmt"
+
+	"github.com/rockingrohit9639/cz/internal"
 
 	"github.com/spf13/cobra"
 )

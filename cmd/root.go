@@ -1,11 +1,12 @@
 package cmd
 
 import (
-	"cz/cache"
-	"cz/config"
-	"cz/internal"
 	"fmt"
 	"os"
+
+	"github.com/rockingrohit9639/cz/cache"
+	"github.com/rockingrohit9639/cz/config"
+	"github.com/rockingrohit9639/cz/internal"
 
 	"github.com/spf13/cobra"
 )

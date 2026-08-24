@@ -1,8 +1,9 @@
 package cache
 
 import (
-	"cz/internal"
 	"os"
+
+	"github.com/rockingrohit9639/cz/internal"
 )
 
 var cache = Cache{}

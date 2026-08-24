@@ -1,9 +1,10 @@
 package config
 
 import (
-	"cz/internal"
 	"encoding/json"
 	"os"
+
+	"github.com/rockingrohit9639/cz/internal"
 )
 
 func createEmptyConfigFile() {

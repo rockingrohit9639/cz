@@ -1,0 +1,6 @@
+# GoReleaser build output
+dist/
+
+# Local binaries
+cz
+cz.exe

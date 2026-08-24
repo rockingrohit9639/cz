@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"cz/config"
-	"cz/internal"
+	"github.com/rockingrohit9639/cz/config"
+	"github.com/rockingrohit9639/cz/internal"
 
 	"github.com/spf13/cobra"
 )
